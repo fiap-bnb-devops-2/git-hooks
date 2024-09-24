@@ -15,7 +15,7 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Aprenda Git Hooks
+          Aprenda Git Hooks e Python
         </a>
       </header>
     </div>
