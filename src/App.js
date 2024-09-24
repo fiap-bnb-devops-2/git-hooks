@@ -7,7 +7,7 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Aprendendo sobre Git Hooks
+          Aprendendo sobre Git Hooks. Git Hook post-commit
         </p>
         <a
           className="App-link"
