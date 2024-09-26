@@ -1,0 +1,3 @@
+#!/usr/bin/env python
+
+print("Hook post-commit executado no Python!!!")

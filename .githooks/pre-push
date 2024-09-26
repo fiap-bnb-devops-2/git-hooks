@@ -1,0 +1,39 @@
+#!/usr/bin/env python
+
+# Configurar o servidor de envio de email
+# Informar o assunto e o conteúdo do email
+# Realizar de fato o envio do email
+
+import smtplib
+from email.mime.text import MIMEText
+from subprocess import check_output
+
+print("Iniciando hook pre-push")
+
+logAuthorName = check_output(['git', 'log', '-1', '--pretty=format:"%an"']).decode('utf-8').replace('"', '')
+logAuthorEmail = check_output(['git', 'log', '-1', '--pretty=format:"%ae"']).decode('utf-8').replace('"', '')
+logAuthorDate = check_output(['git', 'log', '-1', '--pretty=format:"%ad"']).decode('utf-8').replace('"', '')
+logCommitMessage = check_output(['git', 'log', '-1', '--pretty=format:"%s"']).decode('utf-8').replace('"', '')
+logCommitHash = check_output(['git', 'log', '-1', '--pretty=format:"%H"']).decode('utf-8').replace('"', '')
+
+message = MIMEText("Olá, tudo bem? Confira as últimas informações sobre o seu repositório remoto\n\nAutor: %s\nEmail: %s\nData do commit: %s\nMensagem do commit: %s\nHash do commit: %s" % (logAuthorName, logAuthorEmail, logAuthorDate, logCommitMessage, logCommitHash))
+message['Subject'] = 'Novo push para o repositório remoto no GitHub'
+message['From'] = 'orafa.ribeiro98@gmail.com'
+message['To'] = 'orafa.ribeiro98@gmail.com'
+
+SMTP_HOST = 'smtp.gmail.com'
+SMTP_PORT = 587
+
+session = smtplib.SMTP(SMTP_HOST, SMTP_PORT)
+
+session.ehlo()
+session.starttls()
+session.ehlo()
+
+session.login(message['From'], 'cpoq jbrx rnma xxyh')
+
+session.sendmail(message['From'], message['To'], message.as_string())
+
+print('Email enviado!')
+
+session.quit()
